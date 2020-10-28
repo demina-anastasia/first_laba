@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-
+import static com.su.lab.DetailsActivity.NAME_EXTRA;
 import androidx.core.content.ContextCompat;
 
 import static com.su.lab.DetailsActivity.CONTACT_ID_EXTRA;
@@ -101,10 +101,11 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         Cursor cursor = cursorAdapter.getCursor();
         cursor.moveToPosition(position);
         long contactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-        openDetailsActivity(contactId);
+        String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+        openDetailsActivity(contactId, name);
     }
 
-    private void openDetailsActivity(long contactId) {
+    private void openDetailsActivity(long contactId, String name) {
         /*
          * TODO #1 Реализовать открытие DetailsActivity через Intent
          *  https://developer.android.com/training/basics/firstapp/starting-activity
@@ -113,6 +114,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra(CONTACT_ID_EXTRA, contactId);
+        intent.putExtra(NAME_EXTRA, name);
         startActivity(intent);
     }
 }
